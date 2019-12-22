@@ -1,0 +1,32 @@
+<html>
+<body>
+
+<button id = "single">Click me</button>
+</body>
+</html>
+
+<script type="text/javascript" src="Tonejs-Instruments.js"></script>
+<script src="https://unpkg.com/tone@latest/build/Tone.js"></script>
+<script>
+//var piano = new Tone.piano(4, Tone.Synth).toMaster()//.chain(distortion, tremolo, Tone.Master)
+var piano = SampleLibrary.load({
+  instruments: "piano",
+baseUrl: "/samples/"
+});
+piano.toMaster();
+
+
+function play(time){
+  piano.triggerAttackRelease("D4",0.5,time);
+  piano.triggerAttackRelease("G4",1,time+0.5);
+  piano.triggerAttackRelease("F#4",0.5,time+1.5);
+  piano.triggerAttackRelease("G4",0.5,time+2);
+  piano.triggerAttackRelease(["E4","C2"],1,time+2.5);
+}
+Tone.Transport.schedule(play,0);
+document.querySelector("#single").addEventListener('mousedown', () =>{
+  Tone.Transport.stop()
+  Tone.Transport.start2.5
+});
+
+</script>
