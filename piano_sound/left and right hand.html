@@ -1,0 +1,40 @@
+<script src="https://unpkg.com/@webcomponents/webcomponentsjs@^2/webcomponents-bundle.js"></script>
+<script src="https://unpkg.com/tone"></script>
+<script src="https://unpkg.com/@tonejs/ui"></script>
+<script type="text/javascript" src="Tonejs-Instruments.js"></script>
+
+<tone-demo>
+  <tone-button label="Chord" id="chord"></tone-button>
+</tone-demo>
+
+<script>
+//var distortion = new Tone.Distortion(0.6)
+//var tremolo = new Tone.Tremolo().start()
+
+//var piano = new Tone.piano(4, Tone.Synth).toMaster()//.chain(distortion, tremolo, Tone.Master)
+var piano = SampleLibrary.load({
+  instruments: "piano",
+baseUrl: "/samples/"
+});
+piano.toMaster();
+
+
+function triggerSynth(time){
+  piano.triggerAttackRelease(["C3","E3","G3","E4"],'8n',time);
+  piano.triggerAttackRelease(["D4"],'8n',time+1);
+  piano.triggerAttackRelease(["C3","E3","G3","C4"],'8n',time+2);
+  piano.triggerAttackRelease(["D4"],'8n',time+3);
+  piano.triggerAttackRelease(["C3","E3","G3","E4"],'8n',time+4);
+  piano.triggerAttackRelease(["E4"],'8n',time+5)
+  piano.triggerAttackRelease(["E4"],'8n',time+6)
+  piano.triggerAttackRelease(["B2","D3","G3","D4"],'8n',time+8);
+}
+  Tone.Transport.schedule(triggerSynth,0)
+
+  document.querySelector('#chord').addEventListener('mousedown', () =>{
+    Tone.Transport.stop()
+    Tone.Transport.start()
+  });
+
+
+</script>
